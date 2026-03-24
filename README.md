@@ -15,19 +15,51 @@ This agent knows all emberlamp repositories and can clone them to /tmp/emberlamp
 
 ## Workflows
 
-All 13 emberlamp repos now have three workflows:
+All 13 emberlamp repos have three workflows:
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
 | **CI** | push/PR to main | Lint & test |
-| **Release** | tag `v*` | Auto release |
+| **Release** | push to main (auto) or manual | Auto version bump & release |
 | **Automation** | daily schedule + manual | Sync, backup, report |
 
-Repos with workflows: general, react-template, swe-agent, gh-pin-repo, config, cli, bot, license, warnings, json-repo, gitkeep, .github, skills
+### Automated Release
 
-Example workflow file added to all repos:
+Release is fully automated - no manual tagging needed!
+
+**How it works:**
+1. On push to `main`, checks commits since last tag
+2. If `feat:` commits → bump **minor** version (e.g., v1.0 → v1.1.0)
+3. If `fix:` commits → bump **patch** version (e.g., v1.1.0 → v1.1.1)
+4. Creates tag automatically
+5. Generates release notes with features, bug fixes, docs
+6. Creates GitHub release
+
+**Conventional commits:**
+```
+feat: add new feature     # → minor release
+fix: bug fix              # → patch release
+docs: update readme       # → no release
+```
+
+**Manual trigger:**
+```bash
+gh workflow run release.yml -f version=minor -R emberlamp/repo
+```
+
+**Release workflow file:**
 ```yaml
-# .github/workflows/ci.yml
+# .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version bump (major, minor, patch)'
+        default: 'patch'
 name: CI
 on:
   push:
