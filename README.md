@@ -23,6 +23,25 @@ python agent.py clone-all     # Clone all 13 repos
 python agent.py capabilities  # Show agent capabilities
 ```
 
+## Examples
+
+```bash
+# Basic run - shows agent info
+python agent.py
+
+# List all 13 emberlamp repos
+python agent.py list
+
+# Clone a specific repo
+python agent.py clone bot
+
+# Clone all repos to /tmp/emberlamp/
+python agent.py clone-all
+
+# Show full capabilities with skills
+python agent.py capabilities
+```
+
 ## Structure
 
 ```
