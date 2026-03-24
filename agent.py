@@ -84,6 +84,34 @@ class SWEAgent:
         """List all cloned emberlamp repos in /tmp."""
         return [repo for repo in self.repos if self.is_repo_cloned(repo)]
 
+    def clone_repo(self, repo: str, force: bool = False) -> bool:
+        """Clone a repo to /tmp/emberlamp/<repo>. Returns True if successful."""
+        if self.is_repo_cloned(repo) and not force:
+            return True
+        target = self.get_repo_path(repo)
+        if target is None:
+            target = Path(TMP_BASE) / "emberlamp" / repo
+        target.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            if repo == ".github":
+                url = f"https://github.com/{ORG}/.github.git"
+            else:
+                url = f"https://github.com/{ORG}/{repo}.git"
+            subprocess.run(
+                ["git", "clone", url, str(target)], capture_output=True, timeout=60
+            )
+            return target.exists()
+        except Exception:
+            return False
+
+    def clone_all(self, force: bool = False) -> list:
+        """Clone all repos to /tmp/emberlamp/. Returns list of cloned repos."""
+        cloned = []
+        for repo in self.repos:
+            if self.clone_repo(repo, force):
+                cloned.append(repo)
+        return cloned
+
     def execute_task(self, task: str) -> dict:
         """Execute a software engineering task."""
         return {"status": "pending", "task": task, "result": None}
