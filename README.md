@@ -15,7 +15,7 @@ This agent knows all emberlamp repositories and can clone them to /tmp/emberlamp
 
 ## Workflows
 
-All 13 emberlamp repos have three workflows:
+All 14 emberlamp repos have three workflows:
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
@@ -113,7 +113,7 @@ To https://github.com/emberlamp/gitkeep.git
 python agent.py list          # List all emberlamp repos
 python agent.py cloned        # List cloned repos in /tmp
 python agent.py clone <repo>  # Clone a specific repo
-python agent.py clone-all     # Clone all 13 repos
+python agent.py clone-all     # Clone all 14 repos
 python agent.py capabilities  # Show agent capabilities
 ```
 
@@ -123,7 +123,7 @@ python agent.py capabilities  # Show agent capabilities
 # Basic run - shows agent info
 python agent.py
 
-# List all 13 emberlamp repos
+# List all 14 emberlamp repos
 python agent.py list
 
 # Clone a specific repo
@@ -160,10 +160,10 @@ Skills are loaded from emberlamp/skills repo:
 Testing the agent in action:
 
 ```bash
-# Show capabilities (all 13 repos cloned, skills loaded)
+# Show capabilities (all 14 repos cloned, skills loaded)
 $ python3 /tmp/swe-agent/agent.py capabilities
 Agent: emberlamp-agent
-Total repos: 13
+Total repos: 14
 Cloned repos: ['general', 'react-template', 'swe-agent', 'gh-pin-repo', 'config', 'cli', 'bot', 'license', 'warnings', 'json-repo', 'gitkeep', '.github', 'skills']
 Skills loaded: ['developer_tools', 'personas']
 
@@ -208,7 +208,7 @@ Cloned repos: ['config', 'skills']
 # Basic run
 $ python3 /tmp/swe-agent/agent.py
 Agent: emberlamp-agent
-Total repos: 13
+Total repos: 14
 Cloned repos: ['skills']
 Skills loaded: ['developer_tools', 'personas']
 ```
