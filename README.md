@@ -13,6 +13,68 @@ This agent knows all emberlamp repositories and can clone them to /tmp/emberlamp
 - Loads skills from emberlamp/skills
 - CLI for repo management
 
+## Workflows
+
+All 13 emberlamp repos now have three workflows:
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| **CI** | push/PR to main | Lint & test |
+| **Release** | tag `v*` | Auto release |
+| **Automation** | daily schedule + manual | Sync, backup, report |
+
+Repos with workflows: general, react-template, swe-agent, gh-pin-repo, config, cli, bot, license, warnings, json-repo, gitkeep, .github, skills
+
+Example workflow file added to all repos:
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+```
+
+Workflows added to all repos:
+
+```bash
+$ for dir in /tmp/emberlamp/*/; do
+    repo=$(basename "$dir")
+    mkdir -p "$dir/.github/workflows"
+    cp workflows/*.yml "$dir/.github/workflows/"
+    git -C "$dir" add -A && git -C "$dir" commit -m "feat: include workflows"
+    git -C "$dir" push
+  done
+Added workflows to bot
+Added workflows to cli
+Added workflows to config
+Added workflows to general
+Added workflows to gh-pin-repo
+Added workflows to json-repo
+Added workflows to license
+Added workflows to react-template
+Added workflows to skills
+Added workflows to swe-agent
+Added workflows to warnings
+To https://github.com/emberlamp/general.git
+To https://github.com/emberlamp/skills.git
+To https://github.com/emberlamp/gh-pin-repo.git
+To https://github.com/emberlamp/bot.git
+To https://github.com/emberlamp/react-template.git
+To https://github.com/emberlamp/warnings.git
+To https://github.com/emberlamp/cli.git
+To https://github.com/emberlamp/json-repo.git
+To https://github.com/emberlamp/config.git
+To https://github.com/emberlamp/license.git
+To https://github.com/emberlamp/gitkeep.git
+```
+
 ## Usage
 
 ```bash
