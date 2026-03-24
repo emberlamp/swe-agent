@@ -1,35 +1,43 @@
-# SWE Agent Template
+# SWE Agent - Emberlamp
 
-Template for building software engineering agents with AI capabilities.
+Software engineering agent for emberlamp organization with emberlamp repos awareness.
 
 ## Overview
 
-This is a starter template for building AI-powered software engineering agents.
+This agent knows all emberlamp repositories and can clone them to /tmp/emberlamp/ for operations.
 
 ## Features
 
-- Task planning and execution
-- Code generation and modification
-- Testing and validation
-- Multi-language support
+- Loads repos dynamically from emberlamp/config
+- Detects cloned repos in /tmp/emberlamp/
+- Loads skills from emberlamp/skills
+- CLI for repo management
 
 ## Usage
 
 ```bash
-# Clone and customize for your agent
+python agent.py list          # List all emberlamp repos
+python agent.py cloned        # List cloned repos in /tmp
+python agent.py clone <repo>  # Clone a specific repo
+python agent.py clone-all     # Clone all 13 repos
+python agent.py capabilities  # Show agent capabilities
 ```
 
 ## Structure
 
 ```
-src/
-├── agent.py        # Main agent logic
-├── tasks.py        # Task definitions
-├── tools/          # Agent tools
-└── utils/         # Utilities
+swe-agent/
+├── agent.py        # Main agent with repo awareness
+├── README.md       # This file
+└── .pre-commit-config.yaml
 ```
 
-## Requirements
+## Repos
 
-- Python 3.9+
-- OpenAI/Anthropic API access (optional)
+The agent manages these emberlamp repos:
+- general, react-template, swe-agent, gh-pin-repo, config, cli, bot, license, warnings, json-repo, gitkeep, .github, skills
+
+## Skills
+
+Skills are loaded from emberlamp/skills repo:
+- Developer tools, personas
