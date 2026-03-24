@@ -132,9 +132,40 @@ class SWEAgent:
 
 
 if __name__ == "__main__":
+    import sys
+
     agent = SWEAgent("emberlamp-agent")
-    info = agent.get_capabilities()
-    print(f"Agent: {info['name']}")
-    print(f"Total repos: {len(info['repos'])}")
-    print(f"Cloned repos: {info['cloned_repos']}")
-    print(f"Skills loaded: {list(info['skills'].keys())}")
+    if len(sys.argv) > 1:
+        cmd = sys.argv[1]
+        if cmd == "list":
+            print("Emberlamp Repositories:")
+            for repo in agent.repos:
+                print(f"  - {repo}")
+        elif cmd == "cloned":
+            print("Cloned Repos:")
+            for repo in agent.list_cloned_repos():
+                print(f"  - {repo}")
+        elif cmd == "clone" and len(sys.argv) > 2:
+            repo = sys.argv[2]
+            print(f"Cloning {repo}...")
+            result = agent.clone_repo(repo)
+            print(f"Success: {result}")
+        elif cmd == "clone-all":
+            print("Cloning all repos...")
+            cloned = agent.clone_all()
+            print(f"Cloned: {cloned}")
+        elif cmd == "capabilities":
+            info = agent.get_capabilities()
+            print(f"Agent: {info['name']}")
+            print(f"Total repos: {len(info['repos'])}")
+            print(f"Cloned repos: {info['cloned_repos']}")
+            print(f"Skills loaded: {list(info['skills'].keys())}")
+        else:
+            print("Usage: python agent.py <command>")
+            print("Commands: list, cloned, clone <repo>, clone-all, capabilities")
+    else:
+        info = agent.get_capabilities()
+        print(f"Agent: {info['name']}")
+        print(f"Total repos: {len(info['repos'])}")
+        print(f"Cloned repos: {info['cloned_repos']}")
+        print(f"Skills loaded: {list(info['skills'].keys())}")
