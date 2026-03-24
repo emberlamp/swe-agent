@@ -60,3 +60,61 @@ The agent manages these emberlamp repos:
 
 Skills are loaded from emberlamp/skills repo:
 - Developer tools, personas
+
+## Experiment
+
+Testing the agent in action:
+
+```bash
+# Show capabilities (all 13 repos cloned, skills loaded)
+$ python3 /tmp/swe-agent/agent.py capabilities
+Agent: emberlamp-agent
+Total repos: 13
+Cloned repos: ['general', 'react-template', 'swe-agent', 'gh-pin-repo', 'config', 'cli', 'bot', 'license', 'warnings', 'json-repo', 'gitkeep', '.github', 'skills']
+Skills loaded: ['developer_tools', 'personas']
+
+# Clone all repos
+$ python3 /tmp/swe-agent/agent.py clone-all
+Cloning all repos...
+Cloned: ['general', 'react-template', 'swe-agent', 'gh-pin-repo', 'config', 'cli', 'bot', 'license', 'warnings', 'json-repo', 'gitkeep', '.github', 'skills']
+
+# Clone single repo
+$ python3 /tmp/swe-agent/agent.py clone bot
+Cloning bot...
+Success: True
+
+# List all repos
+$ python3 /tmp/swe-agent/agent.py list
+Emberlamp Repositories:
+  - general
+  - react-template
+  - swe-agent
+  - gh-pin-repo
+  - config
+  - cli
+  - bot
+  - license
+  - warnings
+  - json-repo
+  - gitkeep
+  - .github
+  - skills
+
+# Python API usage
+$ python3 -c "
+from agent import SWEAgent
+agent = SWEAgent('test')
+result = agent.clone_repo('config')
+print(f'Clone config: {result}')
+print(f'Cloned repos: {agent.list_cloned_repos()}')
+"
+Clone config: True
+Cloned repos: ['config', 'skills']
+
+# Basic run
+$ python3 /tmp/swe-agent/agent.py
+Agent: emberlamp-agent
+Total repos: 13
+Cloned repos: ['skills']
+Skills loaded: ['developer_tools', 'personas']
+```
