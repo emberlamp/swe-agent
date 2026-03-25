@@ -42,9 +42,11 @@ fix: bug fix              # → patch release
 docs: update readme       # → no release
 ```
 
-**Manual trigger:**
+**Manual trigger (any commit type):**
 ```bash
-gh workflow run release.yml -f version=minor -R emberlamp/repo
+gh workflow run release.yml -f version=patch --repo emberlamp/repo
+gh workflow run release.yml -f version=minor --repo emberlamp/repo
+gh workflow run release.yml -f version=major --repo emberlamp/repo
 ```
 
 ### Release Workflow Fixes
