@@ -47,6 +47,54 @@ docs: update readme       # → no release
 gh workflow run release.yml -f version=minor -R emberlamp/repo
 ```
 
+### Release Workflow Fixes
+
+During development, we encountered and fixed several issues:
+
+1. **Tag not detected**: Added `git fetch --tags --force origin` after checkout to ensure latest tags are available
+2. **Wrong tag used**: Changed from `git describe` to using `${{ steps.bump.outputs.NEW_TAG }}` to get the correct new tag
+3. **Missing id on step**: Added `id: bump` to the bump step so its outputs can be referenced
+4. **Changelog link broken**: Fixed `LAST_TAG` in release notes to use `HEAD^` (not `origin/main HEAD^`)
+5. **Newline in tag**: Added `| tr -d '\n'` to remove trailing newlines from git describe output
+
+**Release workflow key steps:**
+```yaml
+- uses: actions/checkout@v4
+  with:
+    fetch-depth: 0
+
+- name: Fetch all tags
+  run: git fetch --tags --force origin
+
+- name: Bump version and tag
+  id: bump
+  run: |
+    LAST_TAG=$(git describe --tags --abbrev=0 origin/main 2>/dev/null || echo "")
+    # ... calculate new version ...
+    NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+    echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
+
+- name: Create Release
+  run: |
+    TAG="${{ steps.bump.outputs.NEW_TAG }}"
+    # Create release for TAG
+```
+
+### Testing Release Workflow
+
+```bash
+# Check tags vs releases are in sync
+for repo in general license react-template gitkeep warnings json-repo gh-pin-repo config swe-agent cli bot skills hub; do
+  tags=$(gh api repos/emberlamp/$repo/tags --jq '.[].name' | head -1)
+  releases=$(gh api repos/emberlamp/$repo/releases --jq '.[0].tag_name')
+  if [ "$tags" = "$releases" ]; then
+    echo "$repo: ✅ $tags"
+  else
+    echo "$repo: ❌ tag=$tags release=$releases"
+  fi
+done
+```
+
 **Release workflow file:**
 ```yaml
 # .github/workflows/release.yml
