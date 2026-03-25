@@ -95,6 +95,23 @@ for repo in general license react-template gitkeep warnings json-repo gh-pin-rep
 done
 ```
 
+## Troubleshooting
+
+### Tag exists but no release
+- Check if workflow ran successfully
+- Verify workflow has latest fixes
+
+### Wrong version bump
+- Check commit prefix (`feat:` → minor, `fix:` → patch, `docs:` → none)
+
+### Broken changelog link
+- Ensure `| tr -d '\n'` after git describe
+- Use `HEAD^` not `origin/main HEAD^`
+
+### Tag/release mismatch
+- Use `${{ steps.bump.outputs.NEW_TAG }}` not git describe
+- Add `git fetch --tags --force origin` after checkout
+
 **Release workflow file:**
 ```yaml
 # .github/workflows/release.yml
