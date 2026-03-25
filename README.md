@@ -231,7 +231,7 @@ swe-agent/
 ## Repos
 
 The agent manages these emberlamp repos:
-- general, react-template, swe-agent, gh-pin-repo, config, cli, bot, license, warnings, json-repo, gitkeep, .github, skills
+- general, hub, react-template, swe-agent, gh-pin-repo, config, cli, bot, license, warnings, json-repo, gitkeep, .github, skills
 
 ## Skills
 
