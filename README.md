@@ -114,6 +114,22 @@ done
 - Use `${{ steps.bump.outputs.NEW_TAG }}` not git describe
 - Add `git fetch --tags --force origin` after checkout
 
+### Automation Workflow
+
+All repos have an automation workflow that runs daily and on-demand:
+
+| Action | Description |
+|--------|-------------|
+| **sync** | Compares config repos.json with actual GitHub repos |
+| **report** | Generates org report with repo list |
+| **all** | Runs both sync and report |
+
+**Usage:**
+```bash
+gh workflow run automation.yml -f action=sync --repo emberlamp/repo
+gh workflow run automation.yml -f action=report --repo emberlamp/repo
+```
+
 **Release workflow file:**
 ```yaml
 # .github/workflows/release.yml
