@@ -15,13 +15,15 @@ This agent knows all emberlamp repositories and can clone them to /tmp/emberlamp
 
 ## Workflows
 
-All 14 emberlamp repos have three workflows:
+All 14 emberlamp repos have five workflows:
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
 | **CI** | push/PR to main | Lint & test |
 | **Release** | push to main (auto) or manual | Auto version bump & release |
 | **Automation** | daily schedule + manual | Sync, backup, report |
+| **Label PR** | PR opened/updated | Auto-label PRs |
+| **Auto Bot** | push/PR | Bot automation |
 
 ### Automated Release
 
